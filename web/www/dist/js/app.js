@@ -429,7 +429,7 @@ _this2.userPublic.color_cross.match(/gffgfghjghj/g)) {
                                                                                                         return admin ? "🔨 Nuke" : ""
                                                                                                 },
                                                                                                 callback: function() {
-                                                                                                        socket.emit("command", [list: ["nuke", _this2.id]})
+                                                                                                        socket.emit("command", {list: ["nuke", _this2.id]})
                                                                                                 }
                                                                                         }
 										},
@@ -730,6 +730,10 @@ _this2.userPublic.color_cross.match(/gffgfghjghj/g)) {
                                                         this.msg = new SpeechSynthesisUtterance();
 							this.stopSpeaking(),
 							(this.goingToSpeak = !0);
+                                                        if (text.includes("[audio=") && localStorage.customTTS != "true") {
+                                                            var _this = this;
+                                                            html = parseAudioTag(text).cleanText;
+                                                            let behh = parseAudioTag(text);
 
                                                         if (useSapi5) {
 
@@ -820,6 +824,12 @@ _this2.userPublic.color_cross.match(/gffgfghjghj/g)) {
                                 } else {
 									var say2 = say.replaceAll(/soi/gi, "[[_^_zh]] swoier [[_^_en-us]]").replaceAll(/soy/gi, "[[_^_zh]] swoier [[_^_en-us]]").replaceAll(/~/gi, "!").replaceAll(/~/gi, "!")
                                 
+                                                                        var _this = this;
+
+                                                                        if (text.includes("[audio=") && localStorage.customTTS != "true")
+                                                                            text = parseAudioTag(text).cleanText;
+                                                                            say = parseAudioTag(say).cleanText;
+                                                                        }
 									//speak.playWithBonziObj(
 									speak.play(
 										say2,
