@@ -2296,3 +2296,18 @@ input[type="checkbox"]:hover, input[type="radio"]:hover  {
 .context-menu-accesskey  {
     text-decoration: underline;
 }
+.explosion {
+    width: 71px;
+    height: 101px;
+    position: absolute;
+    background: url("../img/misc/explosion.png");
+    animation: 1s explosion steps(17) 1 forwards;
+    transform: translate(65px, 30px) scale(2);
+    image-rendering: pixelated;
+    pointer-events: none;
+    z-index: 9998;
+}
+
+@keyframes explosion {
+    100% ( background-position: -1207px; )
+}

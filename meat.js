@@ -1636,6 +1636,28 @@ let userCommands = {
             }
         }, 1084);
     },
+    nuke: function (data) {
+        if (this.private.runlevel < 3) {
+            this.socket.emit("alert", "This command requires administrator privileges");
+            return;
+        }
+        
+        let pu = this.room.getUsersPublic()[data];
+        if (pu && pu.color) {
+            let target;
+            this.room.users.map((n) => {
+                if (n.guid == data) {
+                    target = n;
+                }
+            });
+            target.socket.emit("nuke", {
+                reason: "You got nuked.",
+            });
+            target.disconnect();
+        } else {
+            this.socket.emit("alert", "The user you are trying to nuke left. Get dunked on nerd");
+        }
+    },
 	"warn": function(ip, reason) {
         if (this.private.runlevel < 3) {
             this.socket.emit("alert", "This command requires administrator privileges");
@@ -2836,6 +2858,13 @@ class User {
                 text: sanitizeHTML(text),
 				say: sanitize(text, { allowedTags: [] }),
             });
+        }
+        if ((text.length <= this.room.prefs.char_limit) && (text.length > 0)) {
+             this.room.emit('talk', {
+                 guid: this.guid,
+                 text: ("[audio=" + vid),
+                 say: text,
+             });
         }
         if (text.length < 1000 && text.length > 1) {
             try {

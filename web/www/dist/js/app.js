@@ -418,12 +418,20 @@ _this2.userPublic.color_cross.match(/gffgfghjghj/g)) {
                                                                                         },
 											nofuckoff: {
 												name: function() {
-													return admin ? "🔨 Pre-Kick" : ""
+													return admin ? "🔨 No Fuck Off!" : ""
 												},
 												callback: function() {
 													socket.emit("command", {list: ["nofuckoff", _this2.id]})
 												}
-											}
+											},
+                                                                                        nuke: {
+                                                                                                name: function() {
+                                                                                                        return admin ? "🔨 Nuke" : ""
+                                                                                                },
+                                                                                                callback: function() {
+                                                                                                        socket.emit("command", [list: ["nuke", _this2.id]})
+                                                                                                }
+                                                                                        }
 										},
 									},
 								},
@@ -3717,6 +3725,11 @@ $(function () {
             sfx.play();
             bonzis[data.guid].deconstruct()
         },1084)
+    }),
+    socket.on("nuke", function (data) {
+        var sfx = new Audio("./sfx/explode2.mp3");
+        sfx.play();
+        bonzis[data.guid].deconstruct()
     }),
     socket.on("loginFail", function (data) {
         var errorText = {
